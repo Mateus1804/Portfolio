@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-mateus-william",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portfólio profissional de Mateus William em HTML, CSS e JavaScript.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check-site.mjs",
+    "serve": "python3 -m http.server 8080 --directory dist"
+  },
+  "engines": { "node": ">=22" }
+}
