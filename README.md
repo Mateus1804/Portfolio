@@ -44,4 +44,4 @@ Busco uma oportunidade de estágio em desenvolvimento web ou backend para contri
 
 - [LinkedIn](https://www.linkedin.com/in/mateus-william-628350229)
 - [GitHub](https://github.com/Mateus1804)
-- [E-mail](mailto:mateuswilha2@gmail.com)
+- [E-mail](mailto:mateuswilliam.magalhaes@gmail.com)
