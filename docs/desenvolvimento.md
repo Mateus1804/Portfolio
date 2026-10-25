@@ -41,3 +41,24 @@ As métricas de outros projetos devem permanecer vinculadas à revisão que as c
 O workflow de GitHub Pages valida o projeto e publica `dist/` em pushes na main, com a configuração existente `PAGES_ENABLED=true`. A atualização não muda as permissões nem recria a configuração de Pages.
 
 Os detalhes dos testes e da inspeção estão em qualidade.md. Uma checagem estática bem-sucedida não comprova a disponibilidade dos destinos externos ou a acessibilidade completa em todos os navegadores.
+
+## Organização dos estilos e da narrativa
+
+O CSS mantém a sequência da cascata e está formatado em blocos legíveis, com seções para bases, navegação, projetos, trajetória, contato e casos. O formatador é ferramenta de desenvolvimento; os visitantes não carregam uma dependência adicional.
+
+    npm run format
+    npm run format:check
+
+O módulo dist/assets/js/storytelling.js concentra os observadores, a sincronização das prévias e a preferência de movimento reduzido. main.js conserva menu, filtros, cópia de contato e atualização do ano.
+
+## Testes de interface no CI
+
+    npm ci
+    npx playwright install --with-deps chromium
+    npm run test:browser
+
+A suíte de navegador sobe um servidor temporário sob /Portfolio/, com a mesma base de caminhos do GitHub Pages, e recusa requisições externas. Os cenários abrangem as seis páginas em quatro larguras, filtros, teclado, os três capítulos, alteração da preferência de movimento, leitura sem JavaScript e carregamento de SVGs e capturas locais.
+
+Chromium indisponível interrompe a suíte; os testes não são convertidos em skips. A execução de GitHub Pages depende da checagem reutilizável completa, incluindo o navegador. As capturas de evidência ficam no artefato evidencias-interface, com retenção de 14 dias.
+
+A instalação local de dependências e os testes Node foram executados. Os testes de navegador desta etapa são executados pelo CI; os resultados ficam vinculados ao pull request.
