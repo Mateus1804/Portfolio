@@ -1,9 +1,9 @@
 {
-  "name": "portfolio-mateus-william",
+  "name": "portfolio-mateus-magalhaes",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Portfólio profissional de Mateus William em HTML, CSS e JavaScript.",
+  "description": "Portfólio profissional de Mateus Magalhães com projetos web, backend e Android.",
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "check": "node scripts/check-site.mjs",

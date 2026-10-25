@@ -1,0 +1,194 @@
+[
+  {
+    "viewport": "320",
+    "page": "./",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Mateus Magalhães · Web, backend e Android",
+    "width": 305
+  },
+  {
+    "viewport": "320",
+    "page": "projetos/controle-financeiro.html",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Controle Financeiro Android · Mateus Magalhães",
+    "width": 305
+  },
+  {
+    "viewport": "320",
+    "page": "projetos/barbearia.html",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Barbearia do Semá · Estudo de caso | Mateus Magalhães",
+    "width": 305
+  },
+  {
+    "viewport": "320",
+    "page": "projetos/fluxo.html",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Fluxo · solicitações · Estudo de caso | Mateus Magalhães",
+    "width": 305
+  },
+  {
+    "viewport": "320",
+    "page": "projetos/portfolio.html",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Este portfólio · Estudo de caso | Mateus Magalhães",
+    "width": 305
+  },
+  {
+    "viewport": "320",
+    "page": "demos/solicitacoes/",
+    "broken": 0,
+    "scroll": 305,
+    "title": "Fluxo · Demo de solicitações | Mateus Magalhães",
+    "width": 305
+  },
+  {
+    "viewport": "390",
+    "page": "./",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Mateus Magalhães · Web, backend e Android",
+    "width": 375
+  },
+  {
+    "viewport": "390",
+    "page": "projetos/controle-financeiro.html",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Controle Financeiro Android · Mateus Magalhães",
+    "width": 375
+  },
+  {
+    "viewport": "390",
+    "page": "projetos/barbearia.html",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Barbearia do Semá · Estudo de caso | Mateus Magalhães",
+    "width": 375
+  },
+  {
+    "viewport": "390",
+    "page": "projetos/fluxo.html",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Fluxo · solicitações · Estudo de caso | Mateus Magalhães",
+    "width": 375
+  },
+  {
+    "viewport": "390",
+    "page": "projetos/portfolio.html",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Este portfólio · Estudo de caso | Mateus Magalhães",
+    "width": 375
+  },
+  {
+    "viewport": "390",
+    "page": "demos/solicitacoes/",
+    "broken": 0,
+    "scroll": 375,
+    "title": "Fluxo · Demo de solicitações | Mateus Magalhães",
+    "width": 375
+  },
+  {
+    "viewport": "768",
+    "page": "./",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Mateus Magalhães · Web, backend e Android",
+    "width": 753
+  },
+  {
+    "viewport": "768",
+    "page": "projetos/controle-financeiro.html",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Controle Financeiro Android · Mateus Magalhães",
+    "width": 753
+  },
+  {
+    "viewport": "768",
+    "page": "projetos/barbearia.html",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Barbearia do Semá · Estudo de caso | Mateus Magalhães",
+    "width": 753
+  },
+  {
+    "viewport": "768",
+    "page": "projetos/fluxo.html",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Fluxo · solicitações · Estudo de caso | Mateus Magalhães",
+    "width": 753
+  },
+  {
+    "viewport": "768",
+    "page": "projetos/portfolio.html",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Este portfólio · Estudo de caso | Mateus Magalhães",
+    "width": 753
+  },
+  {
+    "viewport": "768",
+    "page": "demos/solicitacoes/",
+    "broken": 0,
+    "scroll": 753,
+    "title": "Fluxo · Demo de solicitações | Mateus Magalhães",
+    "width": 753
+  },
+  {
+    "viewport": "1440",
+    "page": "./",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Mateus Magalhães · Web, backend e Android",
+    "width": 1425
+  },
+  {
+    "viewport": "1440",
+    "page": "projetos/controle-financeiro.html",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Controle Financeiro Android · Mateus Magalhães",
+    "width": 1425
+  },
+  {
+    "viewport": "1440",
+    "page": "projetos/barbearia.html",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Barbearia do Semá · Estudo de caso | Mateus Magalhães",
+    "width": 1425
+  },
+  {
+    "viewport": "1440",
+    "page": "projetos/fluxo.html",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Fluxo · solicitações · Estudo de caso | Mateus Magalhães",
+    "width": 1425
+  },
+  {
+    "viewport": "1440",
+    "page": "projetos/portfolio.html",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Este portfólio · Estudo de caso | Mateus Magalhães",
+    "width": 1425
+  },
+  {
+    "viewport": "1440",
+    "page": "demos/solicitacoes/",
+    "broken": 0,
+    "scroll": 1425,
+    "title": "Fluxo · Demo de solicitações | Mateus Magalhães",
+    "width": 1425
+  }
+]

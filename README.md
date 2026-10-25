@@ -1,44 +1,42 @@
-# Mateus William | Portfólio
+# Mateus Magalhães | Portfólio
 
-Sou estudante de Ciência da Computação e estou direcionando minha formação para desenvolvimento web e backend. Criei este portfólio para apresentar meus projetos, minha trajetória profissional e as tecnologias que venho colocando em prática.
+Portfólio profissional com projetos web, backend e Android, trajetória em Ciência da Computação e experiência com pessoas e processos. Os estudos de caso apresentam o problema, as decisões técnicas, a participação no projeto, as evidências e as limitações de cada entrega.
 
-![Página inicial do portfólio](docs/imagens/portfolio-desktop.jpg)
-
-## Sobre o projeto
-
-O site reúne uma apresentação pessoal, projetos, formação, experiência profissional e formas de contato. Cada projeto tem um estudo de caso com o problema abordado, as decisões de implementação, a validação e os pontos que ainda podem evoluir.
-
-A interface foi construída com HTML, CSS e JavaScript, com atenção à leitura, à adaptação para celular e à navegação por teclado.
+![Página inicial do portfólio](docs/imagens/portfolio-atual-desktop.jpg)
 
 ## Projetos
 
-- **Barbearia do Semá:** aplicação acadêmica de agendamento com Node.js, Express e SQLite. O estudo de caso apresenta a interface, as regras de negócio e a revisão técnica do sistema.
-- **Fluxo:** painel demonstrativo para organizar solicitações, acompanhar status, buscar registros e exportar dados em CSV. Usa dados fictícios e armazena as alterações no navegador.
-- **Portfólio profissional:** este projeto, desenvolvido para reunir meu trabalho e explicar o raciocínio por trás de cada entrega.
+- **Controle Financeiro Android:** aplicativo em Kotlin, Jetpack Compose e Room. Reúne lançamentos, sugestões locais por notificações autorizadas, gráficos, contas reutilizáveis, backup criptografado, orçamentos, recorrências e proteção opcional. O estudo inclui capturas reais com dados fictícios e distingue os testes sintéticos da validação bancária ainda pendente.
+- **Barbearia do Semá:** sistema acadêmico de agendamento com Node.js, Express e SQLite. O estudo descreve disponibilidade, reservas e revisão técnica.
+- **Fluxo:** demonstração interativa de organização de solicitações, com busca, status, persistência no navegador e exportação CSV. Utiliza dados fictícios.
+- **Portfólio profissional:** apresentação estática com navegação acessível, filtros e estudos de caso.
 
-## Tecnologias
+## Apresentação e tecnologias
 
-- HTML semântico e CSS responsivo.
-- JavaScript com módulos nativos.
-- LocalStorage na demonstração Fluxo.
-- Testes com recursos nativos do Node.js.
-- GitHub Actions para integração contínua e publicação.
+A interface mantém a paleta neutra com acentos em roxo. Uma narrativa em três momentos — observar, construir e validar — conecta a experiência profissional às decisões dos projetos. A rolagem sincroniza a prévia visual, sem capturar o scroll ou impedir a leitura dos textos.
 
-Mantive uma estrutura pequena, sem framework de interface ou dependências de execução, adequada ao objetivo desta primeira versão.
+A base utiliza HTML semântico, CSS responsivo e módulos JavaScript nativos, sem framework ou dependências de execução. Os ícones vetoriais são da biblioteca **Lucide**, hospedados localmente em um sprite SVG. As geometrias originais, a procedência e as licenças ISC e MIT estão preservadas em [assets/icons](dist/assets/icons).
+
+O conteúdo principal, os contatos, o currículo e os estudos continuam disponíveis sem JavaScript. As animações respeitam a preferência por movimento reduzido.
 
 ## Qualidade
 
-O modelo do Fluxo conta com **24 testes automatizados**, cobrindo validação de dados, persistência, busca, filtros, contagens e exportação CSV. O projeto também possui uma verificação de arquivos, links internos, âncoras e sintaxe JavaScript.
+O modelo da demonstração Fluxo mantém 24 testes automatizados. A checagem do site verifica arquivos, links internos, âncoras HTML, símbolos SVG e sintaxe JavaScript. As conferências de navegador e suas limitações constam no [registro de qualidade](docs/qualidade.md).
 
-A primeira versão foi conferida no Chromium em layouts de celular e desktop, incluindo menu, filtros e diálogos por teclado. Os resultados e as limitações estão registrados nas [notas de qualidade](docs/qualidade.md).
+Os 178 testes citados no estudo do aplicativo Android pertencem à execução vinculada naquele projeto. Não são testes deste portfólio ou uma garantia de compatibilidade com todos os bancos.
 
-O currículo disponível no site mantém as informações profissionais relevantes, sem telefone ou endereço completo.
+O currículo público conserva as informações profissionais sem divulgar telefone ou endereço completo. As imagens do aplicativo usam somente dados fictícios.
 
-## Sobre mim
+## Estrutura
 
-Curso Ciência da Computação na Uniamérica e tenho formação técnica em Programação de Jogos Digitais pelo SENAI Horto. Minha experiência com atendimento, operações comerciais e controles administrativos faz parte da perspectiva que levo para a tecnologia.
+- `dist/`: site pronto para publicação no GitHub Pages.
+- `dist/projetos/`: estudos de caso.
+- `dist/demos/solicitacoes/`: demonstração Fluxo.
+- `dist/assets/`: estilos, scripts, ícones, imagens e currículo.
+- `scripts/` e `test/`: verificações estáticas e testes.
+- `docs/`: decisões, desenvolvimento e evidências.
 
-Busco uma oportunidade de estágio em desenvolvimento web ou backend para contribuir com uma equipe e aprofundar meus conhecimentos.
+Os procedimentos de manutenção ficam em [desenvolvimento](docs/desenvolvimento.md). A publicação existente pelo GitHub Actions foi preservada.
 
 ## Contato
 

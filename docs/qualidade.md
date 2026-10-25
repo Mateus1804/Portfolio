@@ -57,3 +57,50 @@ Os cenários de CSV incluem aspas, vírgulas, quebras de linha, BOM UTF-8 e neut
 Execute `npm test` e `npm run check`. Inicie `npm run serve`, abra o endereço local e confira as cinco páginas nas larguras citadas. Use Tab, Shift+Tab, Enter e Escape nos links, no menu e nos diálogos. Na demo, crie um registro fictício, altere seu status, recarregue, filtre, exporte o CSV e restaure os exemplos ao terminar.
 
 Ao atualizar o PDF, confira sua extração de texto, renderização, dados de contato e o download no endereço publicado. Atualize este registro somente para verificações efetivamente repetidas.
+
+## Evolução de apresentação — 24 de outubro de 2026
+
+### Escopo e referência
+
+A referência desta etapa é a main `3e531b92e4501a7f080426a7967a6eb1cb73e7d4`. Antes das alterações, os 24 testes e a checagem das cinco páginas passaram. Os arquivos locais anteriores foram preservados em outro diretório.
+
+A atualização acrescenta o Controle Financeiro Android como quarto projeto, com quatro capturas reais de dados fictícios e estudo de caso próprio. O nome de apresentação passou a Mateus Magalhães; web, backend e Android aparecem nas áreas de interesse. A paleta existente e os endereços profissionais foram conservados.
+
+A narrativa associa observar, construir e validar aos projetos reais. A prévia muda ao longo da rolagem, sem interceptar eventos para bloquear o deslocamento. Os textos não são ocultados ou esmaecidos. Em telas baixas, a imagem deixa de ser fixa; as regras de movimento reduzido mantêm a leitura estática.
+
+### Resultados desta etapa
+
+| Verificação | Resultado | Escopo |
+| --- | --- | --- |
+| `npm test` | 24 aprovados, sem falhas ou testes pulados | Modelo da demonstração Fluxo |
+| `npm run check` | Aprovado | Seis páginas, referências internas, imagens, metadados, âncoras HTML, símbolos SVG e sintaxe JavaScript |
+| Responsividade | 24 combinações sem rolagem horizontal | As seis páginas em frames Chromium de 320, 390, 768 e 1440 px; larguras úteis de 305, 375, 753 e 1425 px por causa da barra vertical |
+| Imagens | Nenhuma imagem concluída com erro nas 24 combinações | Capturas e ilustrações locais; imagens lazy fora da tela podem permanecer sem carregamento até a rolagem |
+| Filtros | Android: 1; frontend: 2; todos: 4 | Resultado textual e visibilidade dos cartões |
+| Menu móvel | Aprovado com Enter e Escape | Nome acessível e `aria-expanded` atualizados |
+| Atalho de conteúdo | Aprovado | Enter no link leva o foco ao marco `conteudo` |
+| Scrollytelling | Três capítulos observados | Estados 01/03, 02/03 e 03/03 com as prévias correspondentes; rolagem e ativação por foco |
+| Sem JavaScript | Conteúdo preservado | Quatro projetos, três textos da narrativa, contatos e navegação; filtros permanecem ocultos |
+| Vetores | 30 geometrias originais conferidas | Biblioteca Lucide em commit fixado; licença ISC e aviso MIT preservados |
+| Dados profissionais | Nome e e-mail conferidos no site | PDF existente e URLs antigas preservados; nome sugerido do download atualizado |
+| `git diff --check` | Aprovado | Ausência de erros de espaço na alteração |
+
+Os resultados de layout estão em [responsividade-2026-10-24.json](evidencias/responsividade-2026-10-24.json). A página auxiliar de conferência foi removida antes da publicação. Não foi acrescentada uma dependência de produção ou biblioteca de animação.
+
+### Capturas
+
+![Página inicial atualizada](imagens/portfolio-atual-desktop.jpg)
+
+![Terceiro capítulo da narrativa](imagens/portfolio-storytelling.jpg)
+
+![Conferência no frame de celular](imagens/portfolio-atual-mobile-qa.jpg)
+
+### Limites da evidência
+
+As conferências de interface foram realizadas nesta sessão no Chromium e não equivalem a testes em aparelhos físicos. A preferência de movimento reduzido foi revisada no código; não houve troca da configuração do sistema operacional neste navegador. Não foram repetidos testes em leitores de tela, Safari, Firefox ou medição Lighthouse.
+
+A lógica do Fluxo permaneceu igual, e seus 24 testes foram repetidos. O fluxo completo de criação, exportação e restauração da demonstração pertence à evidência da primeira versão acima; não foi repetido integralmente nesta etapa de apresentação. O conteúdo do PDF não foi atualizado, e o evento de download não foi reconferido.
+
+Os 178 testes Android são de uma execução vinculada no estudo de caso e não fazem parte desta suíte. Os casos bancários são sintéticos; o site deixa explícita a ausência de validação real com todos os bancos. As imagens Android são as capturas originais da revisão do aplicativo, sem dados financeiros reais.
+
+A confirmação final de hospedagem depende da execução do workflow de Pages. O CI conserva os testes Node e a checagem estática; as inspeções de navegador desta seção não são apresentadas como uma suíte de CI.

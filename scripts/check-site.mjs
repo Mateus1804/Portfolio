@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../dist/', import.meta.url));
 const failures = [];
 const htmlCache = new Map();
+const svgCache = new Map();
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   return (await Promise.all(entries.map((entry) => entry.isDirectory() ? walk(path.join(directory, entry.name)) : path.join(directory, entry.name)))).flat();
@@ -42,6 +43,11 @@ for (const file of files.filter((file) => file.endsWith('.html'))) {
     try {
       if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
       await stat(target);
+      if (url.hash && target.endsWith('.svg')) {
+        if (!svgCache.has(target)) svgCache.set(target, await readFile(target, 'utf8'));
+        const svgIds = [...svgCache.get(target).matchAll(/\sid="([^"]+)"/g)].map((entry) => entry[1]);
+        if (!svgIds.includes(decodeURIComponent(url.hash.slice(1)))) report(file, 'símbolo SVG inexistente: ' + value);
+      }
       if (url.hash && target.endsWith('.html')) {
         const targetHtml = await readHtml(target);
         const targetIds = [...targetHtml.matchAll(/\sid="([^"]+)"/g)].map((entry) => entry[1]);
