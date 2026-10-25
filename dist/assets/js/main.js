@@ -1,3 +1,4 @@
+import { initGallery } from './gallery.js';
 import { initStorytelling } from './storytelling.js';
 
 const menuButton = document.querySelector('.menu-toggle');
@@ -65,7 +66,7 @@ if (copyButton && navigator.clipboard?.writeText) {
           timeout = setTimeout(() => reject(new Error('Clipboard indisponível')), 3000);
         })
       ]);
-      if (status) status.textContent = 'E-mail copiado. Até logo na sua caixa de entrada!';
+      if (status) status.textContent = 'E-mail copiado.';
     } catch {
       if (status)
         status.textContent =
@@ -81,3 +82,5 @@ for (const year of document.querySelectorAll('[data-year]'))
   year.textContent = String(new Date().getFullYear());
 
 initStorytelling();
+
+initGallery();

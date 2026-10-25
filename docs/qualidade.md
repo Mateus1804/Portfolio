@@ -116,3 +116,50 @@ Os testes de navegador são obrigatórios no CI e a publicação de Pages depend
 Esta etapa não altera o currículo, os ícones, os dados da demonstração Fluxo ou a descrição dos projetos. Não houve teste em aparelho físico ou leitor de tela.
 
 A execução [40195153346 do CI](https://github.com/Mateus1804/Portfolio/actions/runs/40195153346) aprovou **24 testes do modelo e dez testes de interface com Chromium**, sem falhas ou testes pulados. Também passaram a formatação e a checagem das seis páginas, 226 referências e 26 arquivos publicados. O artefato `evidencias-interface` registra a captura desta execução por 14 dias; a disponibilidade do artefato é temporária. Os testes de movimento reduzido foram executados com a preferência emulada no navegador.
+
+## Evolução do Fluxo e storytelling — 25/10/2026
+
+### Alterações e critérios de aceite
+
+- Três projetos em destaque e bastidores do portfólio em bloco complementar; ações consistentes e captura principal Android com menor inclinação.
+- Quatro etapas da mesma solicitação fictícia no storytelling; sincronização por rolagem no desktop e prévias junto aos textos no celular e com movimento reduzido.
+- Edição sem alterar identificador/criação; prazo opcional; filtros de atraso e vencimento no dia; lista e Kanban com o mesmo estado.
+- Histórico local limitado a 100 eventos por registro, arquivamento, desarquivamento e desfazer em memória.
+- Migração do esquema 1 ao 2; exportação JSON completa; recuperação com validação e prévia; cancelamento e arquivo inválido preservam os dados.
+- Conflito entre abas preserva o formulário, pausa a gravação e permite exportar a sessão ou carregar a versão salva com confirmação.
+- Mensagens distinguem salvamento local de alterações apenas em memória. A restauração explícita dos exemplos permite recuperar armazenamento corrompido.
+- Roteiro guiado, galeria com ampliação por diálogo, vídeo curto do Fluxo com dados fictícios e imagem de compartilhamento própria.
+
+### Comandos executados localmente
+
+| Comando | Resultado |
+| --- | --- |
+| `npm ci` | Dependências de desenvolvimento instaladas |
+| `npx playwright install chromium` | Chromium instalado; um espelho inicial retornou arquivo inválido e o instalador concluiu usando outro espelho oficial |
+| `npm run format:check` | Aprovado |
+| `npm test` | 38 testes aprovados, sem falhas ou testes pulados |
+| `npm run test:browser` | 24 testes aprovados, sem falhas ou testes pulados |
+| `npm run check` | 6 páginas, 229 referências e sintaxe JavaScript conferidas |
+| `git diff --check` | Aprovado |
+
+A suíte de navegador cobre larguras de 320, 390, 768 e 1440 px sob `/Portfolio/`, filtros, teclado, quatro etapas da narrativa, mudança de movimento reduzido, ausência de JavaScript, migração, edição, prazos, Kanban, histórico, arquivamento, desfazer, download e restauração JSON com cancelamento, rejeição de arquivo inválido, entradas HTML tratadas como texto, conflitos reais entre duas abas e armazenamento bloqueado ou corrompido. Um cenário de texto espaçado em tela de 320 px encontrou transbordamento no cabeçalho e na ordenação; os ajustes passaram na repetição e na suíte completa.
+
+O npm emitiu aviso de configuração ambiental `http-proxy`. Não houve adição de dependências de execução nem atualização geral das ferramentas.
+
+### Inspeção e evidências
+
+A prévia foi inspecionada no Chromium remoto em desktop. Capturas automatizadas complementam a inspeção em desktop e celular, usando exclusivamente dados fictícios:
+
+- [Página inicial](imagens/portfolio-evolucao-desktop.jpg) e [celular](imagens/portfolio-evolucao-mobile.jpg).
+- [Storytelling](imagens/portfolio-evolucao-storytelling.jpg).
+- [Fluxo desktop](imagens/fluxo-evolucao-desktop.jpg) e [celular](imagens/fluxo-evolucao-mobile.jpg).
+- [Kanban](imagens/fluxo-kanban.jpg) e [histórico](imagens/fluxo-historico.jpg).
+- Vídeo público em `dist/assets/video/fluxo-demonstracao.webm`, sem autoplay e com legendas descritivas em português. O roteiro de captura é reproduzível; a suíte escreve apenas em `qa/capture/`.
+
+### Limites
+
+Não foram realizados testes com Safari, Firefox, leitores de tela ou aparelhos físicos. A conferência de links internos não comprova disponibilidade externa. As métricas do aplicativo Android continuam vinculadas à revisão original e não foram revalidadas nesta etapa.
+
+Fluxo continua local, com dados fictícios, sem autenticação ou compartilhamento. Histórico não é auditoria empresarial; backup não é criptografado. Limites: 500 registros, 100 eventos recentes por registro e 2 MB serializados. O controle entre abas reduz sobrescritas, mas LocalStorage não garante transações simultâneas. Responsáveis, comentários e sincronização não foram implementados.
+
+Merge e publicação ficam fora desta revisão; os workflows e a configuração de hospedagem foram preservados.

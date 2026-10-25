@@ -16,7 +16,7 @@ test('a leitura preserva os dados de uma sessão válida', () => {
   assert.deepEqual(decodeRequests(JSON.stringify({ version: 1, requests })), requests);
 });
 test('dados corrompidos e versões incompatíveis não são aceitos', () => {
-  for (const raw of ['{', 'null', '{"version":2,"requests":[]}', '{"version":1,"requests":{}}']) assert.throws(() => decodeRequests(raw));
+  for (const raw of ['{', 'null', '{"version":999,"requests":[]}', '{"version":1,"requests":{}}']) assert.throws(() => decodeRequests(raw));
 });
 test('identificadores duplicados e listas excessivas são recusados', () => {
   assert.throws(() => decodeRequests(JSON.stringify({ version: 1, requests: [sample(), sample()] })));
