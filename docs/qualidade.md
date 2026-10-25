@@ -104,3 +104,13 @@ A lógica do Fluxo permaneceu igual, e seus 24 testes foram repetidos. O fluxo c
 Os 178 testes Android são de uma execução vinculada no estudo de caso e não fazem parte desta suíte. Os casos bancários são sintéticos; o site deixa explícita a ausência de validação real com todos os bancos. As imagens Android são as capturas originais da revisão do aplicativo, sem dados financeiros reais.
 
 A confirmação final de hospedagem depende da execução do workflow de Pages. O CI conserva os testes Node e a checagem estática; as inspeções de navegador desta seção não são apresentadas como uma suíte de CI.
+
+## Manutenção do CSS e testes reproduzíveis de interface
+
+A referência desta etapa é e2beb2dbf5b6d7adeb54c03e5721c8b7c76896bf. Antes das alterações, os 24 testes do modelo e a checagem estática passaram.
+
+O CSS foi formatado e recebeu seções, preservando a ordem das regras. A lógica de rolagem foi extraída para storytelling.js. A validação automatizada de navegador agora cobre a base /Portfolio/, quatro larguras, seis páginas, menu, filtros, foco do atalho de conteúdo, os três capítulos, movimento reduzido, leitura sem scripts e recursos locais.
+
+Os testes de navegador são obrigatórios no CI e a publicação de Pages depende dessa checagem. O resultado efetivo e as capturas ficam na execução vinculada ao pull request. Os 24 testes existentes, o formatador e a checagem estática também permanecem no fluxo.
+
+Esta etapa não altera o currículo, os ícones, os dados da demonstração Fluxo ou a descrição dos projetos. Não houve teste em aparelho físico ou leitor de tela.

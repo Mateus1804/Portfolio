@@ -7,7 +7,16 @@
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "check": "node scripts/check-site.mjs",
-    "serve": "python3 -m http.server 8080 --directory dist"
+    "serve": "python3 -m http.server 8080 --directory dist",
+    "test:browser": "node --test test-browser/*.test.mjs",
+    "format": "prettier --write dist/assets/css/styles.css dist/assets/js/*.js",
+    "format:check": "prettier --check dist/assets/css/styles.css dist/assets/js/*.js"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "1.56.0",
+    "prettier": "3.6.2"
+  }
 }
