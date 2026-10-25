@@ -10,6 +10,8 @@ export function initStorytelling() {
     const position = story.querySelector('[data-story-position]');
     const stage = story.querySelector('.story-stage');
     let activeIndex = -1;
+    let inline = false;
+    const frameContainer = story.querySelector('.story-frames');
     let visible = false;
     let scheduledFrame = 0;
 
@@ -35,7 +37,7 @@ export function initStorytelling() {
     };
     const update = () => {
       scheduledFrame = 0;
-      if (!visible || motionPreference.matches) return;
+      if (!visible || inline) return;
       const mobile = window.matchMedia('(max-width: 600px)').matches;
       const sticky = getComputedStyle(stage).position === 'sticky';
       const readingLine =
@@ -49,16 +51,29 @@ export function initStorytelling() {
       activate(next);
     };
     const schedule = () => {
-      if (visible && !motionPreference.matches && !scheduledFrame)
-        scheduledFrame = requestAnimationFrame(update);
+      if (visible && !inline && !scheduledFrame) scheduledFrame = requestAnimationFrame(update);
     };
     const setMotion = () => {
-      story.classList.toggle('story-enhanced', !motionPreference.matches);
-      if (motionPreference.matches) {
-        if (scheduledFrame) cancelAnimationFrame(scheduledFrame);
-        scheduledFrame = 0;
+      inline = motionPreference.matches || window.matchMedia('(max-width: 600px)').matches;
+      story.classList.toggle('story-inline', inline);
+      story.classList.toggle('story-enhanced', !inline);
+      stage.hidden = inline;
+      if (scheduledFrame) cancelAnimationFrame(scheduledFrame);
+      scheduledFrame = 0;
+      for (const [index, frame] of frames.entries()) {
+        const destination = inline ? steps[index] : frameContainer;
+        if (frame.parentElement !== destination) {
+          if (inline) destination.insertBefore(frame, destination.querySelector('h3'));
+          else destination.append(frame);
+        }
+        if (inline) frame.removeAttribute('aria-hidden');
+      }
+      for (const step of steps) if (inline) step.removeAttribute('aria-current');
+      if (!inline) {
+        activeIndex = -1;
         activate(0);
-      } else schedule();
+        schedule();
+      }
     };
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -69,12 +84,12 @@ export function initStorytelling() {
     );
     observer.observe(story);
     story.addEventListener('focusin', (event) => {
-      if (motionPreference.matches) return;
+      if (inline) return;
       const focusedStep = event.target.closest('[data-story-step]');
       if (focusedStep) activate(steps.indexOf(focusedStep));
     });
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('resize', setMotion, { passive: true });
     motionPreference.addEventListener('change', setMotion);
     activate(0);
     setMotion();

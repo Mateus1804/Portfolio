@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Portfólio profissional de Mateus Magalhães com projetos web, backend e Android.",
+  "description": "Portf\u00f3lio profissional de Mateus Magalh\u00e3es com projetos web, backend e Android.",
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "check": "node scripts/check-site.mjs",
     "serve": "python3 -m http.server 8080 --directory dist",
     "test:browser": "node --test test-browser/*.test.mjs",
-    "format": "prettier --write dist/assets/css/styles.css dist/assets/js/*.js",
-    "format:check": "prettier --check dist/assets/css/styles.css dist/assets/js/*.js"
+    "format": "prettier --write dist/assets/css/styles.css dist/assets/js/*.js \"dist/demos/solicitacoes/*.{js,css}\"",
+    "format:check": "prettier --check dist/assets/css/styles.css dist/assets/js/*.js \"dist/demos/solicitacoes/*.{js,css}\""
   },
   "engines": {
     "node": ">=22"
