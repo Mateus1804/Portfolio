@@ -114,3 +114,5 @@ O CSS foi formatado e recebeu seções, preservando a ordem das regras. A lógic
 Os testes de navegador são obrigatórios no CI e a publicação de Pages depende dessa checagem. O resultado efetivo e as capturas ficam na execução vinculada ao pull request. Os 24 testes existentes, o formatador e a checagem estática também permanecem no fluxo.
 
 Esta etapa não altera o currículo, os ícones, os dados da demonstração Fluxo ou a descrição dos projetos. Não houve teste em aparelho físico ou leitor de tela.
+
+A execução [40195153346 do CI](https://github.com/Mateus1804/Portfolio/actions/runs/40195153346) aprovou **24 testes do modelo e dez testes de interface com Chromium**, sem falhas ou testes pulados. Também passaram a formatação e a checagem das seis páginas, 226 referências e 26 arquivos publicados. O artefato `evidencias-interface` registra a captura desta execução por 14 dias; a disponibilidade do artefato é temporária. Os testes de movimento reduzido foram executados com a preferência emulada no navegador.
