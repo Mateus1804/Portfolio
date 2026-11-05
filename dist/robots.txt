@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mateus1804.github.io/Portfolio/sitemap.xml
