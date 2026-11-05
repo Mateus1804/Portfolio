@@ -94,6 +94,25 @@ test('axe: seis páginas sem violações em desktop, celular e movimento reduzid
   assert.deepEqual(failures, []);
 });
 
+test('axe: menu móvel aberto e captura ampliada não têm violações', async () => {
+  const { context, page, errors } = await open({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(origin + prefix);
+    await page.locator('.menu-toggle').click();
+    assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'true');
+    const menu = await runAxe(page);
+
+    await page.goto(origin + prefix + 'projetos/controle-financeiro.html');
+    await page.locator('.interface-gallery a').first().click();
+    await page.waitForSelector('dialog[open]');
+    await page.locator('dialog[open] img').evaluate(image => image.decode());
+    const capture = await runAxe(page);
+
+    assert.deepEqual({ menu, capture }, { menu: [], capture: [] });
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+});
+
 for (const width of [320, 390, 768, 1440]) {
   test('as seis páginas funcionam sob /Portfolio/ na largura ' + width, async () => {
     const { context, page, errors } = await open({ viewport: { width, height: 900 } });
