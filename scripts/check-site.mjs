@@ -56,6 +56,29 @@ for (const file of files.filter((file) => file.endsWith('.html'))) {
     } catch { report(file, 'arquivo inexistente: ' + value); }
   }
 }
+const homepage = path.join(root, 'index.html');
+for (const [, card] of (await readHtml(homepage)).matchAll(/<article\b(?=[^>]*\bclass="[^"]*\bproject-card\b)[^>]*>([\s\S]*?)<\/article>/g)) {
+  const number = card.match(/<div\b[^>]*class="[^"]*\bproject-meta\b[^"]*"[^>]*>\s*<span\b[^>]*>(\d{2}) \/ /)?.[1];
+  if (!number) continue;
+  // O título leva ao estudo de caso; outros links podem abrir a demo ou o código.
+  const destination = card.match(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/)?.[1];
+  if (!destination) { report(homepage, 'projeto ' + number + ': destino ausente'); continue; }
+  const url = new URL(destination, 'https://example.invalid/');
+  let target = path.join(root, decodeURIComponent(url.pathname));
+  if (url.origin !== 'https://example.invalid' || !target.startsWith(root)) {
+    report(homepage, 'projeto ' + number + ': o destino deve ser uma página local');
+    continue;
+  }
+  try {
+    if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
+    const targetHtml = await readHtml(target);
+    const eyebrow = targetHtml.match(/<p\b[^>]*class="[^"]*\beyebrow\b[^"]*"[^>]*>([^<]*)/)?.[1].trim() || '';
+    if (!eyebrow.startsWith(number + ' / ')) {
+      const actual = eyebrow.match(/^\d{2}/)?.[0] || 'sem número';
+      report(target, 'numeração divergente: ' + number + ' vs ' + actual + ' (página inicial vs destino)');
+    }
+  } catch { report(homepage, 'projeto ' + number + ': destino inexistente: ' + destination); }
+}
 for (const file of files.filter((file) => file.endsWith('.js'))) {
   try { execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' }); } catch { report(file, 'JavaScript com erro de sintaxe'); }
 }
