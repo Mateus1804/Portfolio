@@ -8,6 +8,7 @@ import { chromium } from 'playwright';
 
 const directory = fileURLToPath(new URL('../dist/', import.meta.url));
 const prefix = '/Portfolio/';
+const axeScript = fileURLToPath(import.meta.resolve('axe-core/axe.min.js'));
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.pdf': 'application/pdf' };
 let server;
 let browser;
@@ -44,6 +45,73 @@ async function open(options = {}) {
   page.on('pageerror', error => errors.push(error.message));
   return { context, page, errors };
 }
+
+async function runAxe(page) {
+  await page.addScriptTag({ path: axeScript });
+  return page.evaluate(async () => {
+    const { violations } = await axe.run(document, {
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice']
+    });
+    return violations;
+  });
+}
+
+test('axe: seis páginas sem violações em desktop, celular e movimento reduzido', async () => {
+  const failures = [];
+  for (const options of [
+    { viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' },
+    { viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' }
+  ]) {
+    const { context, page, errors } = await open(options);
+    try {
+      for (const route of ['index.html', 'projetos/barbearia.html', 'projetos/fluxo.html', 'projetos/controle-financeiro.html', 'projetos/portfolio.html', 'demos/solicitacoes/index.html']) {
+        const response = await page.goto(origin + prefix + route);
+        assert.equal(response.status(), 200, route);
+        // Percorrer o conteúdo ativa os observadores e o carregamento das imagens antes da análise.
+        await page.evaluate(async () => {
+          for (let top = 0; top < document.documentElement.scrollHeight; top += innerHeight) {
+            window.scrollTo({ top, behavior: 'instant' });
+            await new Promise(requestAnimationFrame);
+          }
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          await new Promise(requestAnimationFrame);
+        });
+        // Analisar o estado final, sem desativar movimento ou regras de contraste.
+        await page.waitForFunction(() => document.getAnimations().every(animation =>
+          animation.playState !== 'running' || animation.effect?.getTiming().iterations === Infinity
+        ));
+        const violations = await runAxe(page);
+        if (violations.length) failures.push({
+          route,
+          width: options.viewport.width,
+          reducedMotion: options.reducedMotion,
+          violations: violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) }))
+        });
+      }
+      assert.deepEqual(errors, []);
+    } finally { await context.close(); }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('axe: menu móvel aberto e captura ampliada não têm violações', async () => {
+  const { context, page, errors } = await open({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(origin + prefix);
+    await page.locator('.menu-toggle').click();
+    assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'true');
+    const menu = await runAxe(page);
+
+    await page.goto(origin + prefix + 'projetos/controle-financeiro.html');
+    await page.locator('.interface-gallery a').first().click();
+    await page.waitForSelector('dialog[open]');
+    await page.locator('dialog[open] img').evaluate(image => image.decode());
+    const capture = await runAxe(page);
+
+    assert.deepEqual({ menu, capture }, { menu: [], capture: [] });
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+});
 
 for (const width of [320, 390, 768, 1440]) {
   test('as seis páginas funcionam sob /Portfolio/ na largura ' + width, async () => {
