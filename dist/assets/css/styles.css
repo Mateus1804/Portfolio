@@ -316,8 +316,8 @@ em {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #717278;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
   margin-top: 31px;
 }
 .hero-location svg {
@@ -399,7 +399,7 @@ em {
   font-size: 7px;
   flex: 1;
   text-align: center;
-  color: #7b7b7c;
+  color: var(--muted);
   letter-spacing: 0.02em;
 }
 .browser-chrome > b {
@@ -2167,7 +2167,8 @@ button > .icon {
   font-size: 15px;
 }
 .hero-location {
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
   line-height: 1.6;
   flex-wrap: wrap;
 }
@@ -3104,7 +3105,7 @@ button > .icon {
     min-height: 44px;
   }
   .hero-location {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 20px;
   }
   .hero-visual.android-hero {
