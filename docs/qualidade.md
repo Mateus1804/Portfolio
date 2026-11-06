@@ -46,7 +46,7 @@ Os cenários de CSV incluem aspas, vírgulas, quebras de linha, BOM UTF-8 e neut
 - O navegador de teste não confirmou o evento de download do PDF: a espera pela transferência expirou. O arquivo presente no site foi inspecionado e sua referência foi validada; o download do currículo deve ser reconferido no endereço público final.
 - A escrita bem-sucedida na área de transferência não foi confirmada neste navegador; o tratamento de indisponibilidade foi exercitado.
 - Não houve teste em Android físico, iOS, Safari, Firefox ou leitor de tela. Não foi realizada certificação WCAG, auditoria de segurança externa ou medição Lighthouse.
-- Os testes de navegador foram conduzidos nesta sessão de revisão. A integração contínua executa os testes do modelo e a checagem estática, sem prometer uma suíte de navegador automatizada no GitHub Actions.
+- As inspeções manuais de navegador da primeira versão foram conduzidas naquela sessão e não equivalem à suíte automatizada atual. O workflow `Qualidade`, em `.github/workflows/ci.yml`, executa `npm run format:check`, `npm test`, `npm run check` e `npm run test:browser` no GitHub Actions.
 - A disponibilidade externa de LinkedIn, GitHub e aplicativos de e-mail não é coberta pela checagem local. Links para código devem ser conferidos após o envio ao repositório.
 - O job de GitHub Pages é condicionado a `PAGES_ENABLED=true`; ativação, URL pública e permissões de publicação dependem da configuração do repositório e não são resultados dos testes locais.
 - A demo não tem autenticação ou backend. Não processa operações empresariais reais. O LocalStorage pode ser removido pelo navegador ou ficar indisponível.
@@ -103,7 +103,7 @@ A lógica do Fluxo permaneceu igual, e seus 24 testes foram repetidos. O fluxo c
 
 Os 178 testes Android são de uma execução vinculada no estudo de caso e não fazem parte desta suíte. Os casos bancários são sintéticos; o site deixa explícita a ausência de validação real com todos os bancos. As imagens Android são as capturas originais da revisão do aplicativo, sem dados financeiros reais.
 
-A confirmação final de hospedagem depende da execução do workflow de Pages. O CI conserva os testes Node e a checagem estática; as inspeções de navegador desta seção não são apresentadas como uma suíte de CI.
+A confirmação final de hospedagem depende da execução do workflow de Pages. Atualmente, o workflow `Qualidade`, em `.github/workflows/ci.yml`, executa `npm run format:check`, `npm test`, `npm run check` e `npm run test:browser`, com Chromium instalado pelo Playwright. As inspeções manuais registradas nesta seção são evidências daquela etapa e não equivalem à suíte automatizada atual de navegador.
 
 ## Manutenção do CSS e testes reproduzíveis de interface
 
@@ -163,3 +163,65 @@ Não foram realizados testes com Safari, Firefox, leitores de tela ou aparelhos 
 Fluxo continua local, com dados fictícios, sem autenticação ou compartilhamento. Histórico não é auditoria empresarial; backup não é criptografado. Limites: 500 registros, 100 eventos recentes por registro e 2 MB serializados. O controle entre abas reduz sobrescritas, mas LocalStorage não garante transações simultâneas. Responsáveis, comentários e sincronização não foram implementados.
 
 Merge e publicação ficam fora desta revisão; os workflows e a configuração de hospedagem foram preservados.
+
+
+## Revisão de 6 de novembro de 2026
+
+### Referência e escopo
+
+A referência anterior é a base `7043ac2`, com 38 testes do modelo, 24 de navegador, checagem de 6 páginas, 229 referências e 32 arquivos, além da formatação aprovada. A varredura anterior com axe identificou as classes `label-content-name-mismatch`, `color-contrast` e `region`.
+
+Esses testes e achados anteriores são a referência histórica desta comparação, não uma nova execução completa daquela suíte. Nesta revisão, `npm run check` também foi repetido sobre uma cópia isolada de `7043ac2` e confirmou as 6 páginas, 229 referências e 32 arquivos.
+
+A referência atual é a main `39d5af046f40b2fff30734387f365265f7080ca8`, já com os PRs de acessibilidade e metadados mesclados. Os quatro comandos abaixo foram executados nessa referência, antes da alteração documental, com Node.js 22.23.4 e Chromium do Playwright. O escopo desta entrega é somente o registro de qualidade; não há alteração de código, dependências ou workflows.
+
+### Comparação dos resultados
+
+| Verificação | Antes — `7043ac2` | Depois — main `39d5af0` |
+| --- | --- | --- |
+| `npm test` | 38 testes do modelo aprovados | 38 aprovados, 0 falhas e 0 pulados |
+| `npm run test:browser` | 24 testes de navegador aprovados | 26 aprovados, 0 falhas e 0 pulados |
+| `npm run check` | 6 páginas, 229 referências e 32 arquivos | 6 páginas, 236 referências e 34 arquivos |
+| `npm run format:check` | Aprovado | Aprovado: `All matched files use Prettier code style!` |
+| Acessibilidade com axe | Classes `label-content-name-mismatch`, `color-contrast` e `region` | Sem violações nos contextos cobertos pelos dois testes automatizados de axe |
+
+### Saída dos comandos e cobertura
+
+A sequência `npm test && npm run check && npm run format:check && npm run test:browser` terminou com código de saída 0. Trechos literais da execução na main:
+
+```text
+> portfolio-mateus-magalhaes@1.0.0 test
+> node --test test/*.test.mjs
+# tests 38
+# pass 38
+# fail 0
+# skipped 0
+
+> portfolio-mateus-magalhaes@1.0.0 check
+> node scripts/check-site.mjs
+OK: 6 páginas HTML, 236 referências, 34 arquivos; caminhos internos, âncoras, imagens e sintaxe JavaScript conferidos. 17 destinos externos registrados (disponibilidade externa exige verificação separada).
+
+> portfolio-mateus-magalhaes@1.0.0 format:check
+> prettier --check dist/assets/css/styles.css dist/assets/js/*.js "dist/demos/solicitacoes/*.{js,css}"
+Checking formatting...
+All matched files use Prettier code style!
+
+> portfolio-mateus-magalhaes@1.0.0 test:browser
+> node --test test-browser/*.test.mjs
+# tests 26
+# pass 26
+# fail 0
+# skipped 0
+```
+
+Os testes com axe percorrem as seis páginas em desktop com movimento normal e celular com movimento reduzido, além do menu móvel aberto e da captura Android ampliada. Também passaram os cenários sem rolagem horizontal em 320, 390, 768 e 1440 px e o teste de ícones e capturas locais sem CDN. A checagem estática inclui a numeração dos estudos de caso, canonicals, metadados Open Graph, sitemap e a diretiva Sitemap de robots.
+
+O workflow `Qualidade` executa as quatro verificações em pull requests e pode ser reutilizado por `workflow_call`. Resultados locais não substituem a conferência da execução do CI vinculada ao PR. A publicação por Pages permanece uma etapa separada.
+
+### Limites
+
+Não foram realizados testes com Safari, Firefox, leitor de tela, Lighthouse ou aparelho físico nesta revisão. O axe cobre somente violações detectáveis automaticamente nos estados exercitados; aprovação automatizada não equivale a certificação de conformidade WCAG nem substitui a avaliação manual de acessibilidade.
+
+Os avisos ambientais `http-proxy` e `EnvHttpProxyAgent` apareceram nos comandos, que terminaram sem falhas. A checagem local de referências não comprova disponibilidade externa, indexação ou prévias em redes sociais.
+
+Os testes e as capturas da Barbearia não foram repetidos nesta revisão. A atualização condicional daquele estudo de caso foi adiada porque o [PR #9 da Barbearia](https://github.com/Mateus1804/barbearia-do-sema/pull/9) estava aberto, sem merge, na consulta desta data. As métricas e imagens anteriores foram preservadas como registros da etapa original.
