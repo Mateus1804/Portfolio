@@ -4,6 +4,10 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../dist/', import.meta.url));
+const publicBase = 'https://mateus1804.github.io/Portfolio/';
+const sharingImage = publicBase + 'assets/images/compartilhamento.png';
+const pageUrl = (file) => publicBase + path.relative(root, file).split(path.sep).join('/').replace(/(^|\/)index\.html$/, '$1');
+const attributes = (tag) => Object.fromEntries([...tag.matchAll(/([\w:-]+)="([^"]*)"/g)].map((match) => [match[1], match[2]]));
 const failures = [];
 const htmlCache = new Map();
 const svgCache = new Map();
@@ -21,6 +25,16 @@ let links = 0;
 const external = new Set();
 for (const file of files.filter((file) => file.endsWith('.html'))) {
   const html = await readHtml(file);
+  const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/)?.[1] || '';
+  const metadata = [...head.matchAll(/<meta\s[^>]*>/g)].map((match) => attributes(match[0]));
+  const canonicals = [...head.matchAll(/<link\s[^>]*>/g)].map((match) => attributes(match[0])).filter((link) => link.rel?.split(/\s+/).includes('canonical'));
+  if (canonicals.length !== 1 || canonicals[0].href !== pageUrl(file)) report(file, 'canonical deve ser único e igual a ' + pageUrl(file));
+  const title = head.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = metadata.find((meta) => meta.name === 'description')?.content;
+  for (const [property, expected] of [['og:title', title], ['og:description', description], ['og:image', sharingImage]]) {
+    const matches = metadata.filter((meta) => meta.property === property);
+    if (!expected || matches.length !== 1 || matches[0].content !== expected) report(file, property + ' deve ser único e igual a ' + (expected || 'um valor não vazio'));
+  }
   if (!/<html\s[^>]*lang="pt-BR"/.test(html)) report(file, 'idioma pt-BR ausente');
   if (!/<meta\s+name="viewport"/.test(html)) report(file, 'viewport ausente');
   if (!/<meta\s+name="description"\s+content="[^"\s][^"]*"/.test(html)) report(file, 'descrição ausente');
@@ -55,6 +69,41 @@ for (const file of files.filter((file) => file.endsWith('.html'))) {
       }
     } catch { report(file, 'arquivo inexistente: ' + value); }
   }
+}
+const sitemapFile = path.join(root, 'sitemap.xml');
+try {
+  const sitemap = await readFile(sitemapFile, 'utf8');
+  const listed = [...sitemap.matchAll(/<loc>\s*([^<]*?)\s*<\/loc>/g)].map((match) => match[1]).sort();
+  const expected = files.filter((file) => file.endsWith('.html')).map(pageUrl).sort();
+  if (listed.length !== expected.length || listed.some((url, index) => url !== expected[index])) report(sitemapFile, 'deve listar exatamente as URLs canônicas das páginas HTML, sem duplicatas');
+} catch { report(sitemapFile, 'arquivo ausente ou ilegível'); }
+const robotsFile = path.join(root, 'robots.txt');
+try {
+  const lines = (await readFile(robotsFile, 'utf8')).split(/\r?\n/).map((line) => line.trim());
+  if (!lines.includes('Sitemap: ' + publicBase + 'sitemap.xml')) report(robotsFile, 'diretiva Sitemap ausente ou incorreta');
+} catch { report(robotsFile, 'arquivo ausente ou ilegível'); }
+const homepage = path.join(root, 'index.html');
+for (const [, card] of (await readHtml(homepage)).matchAll(/<article\b(?=[^>]*\bclass="[^"]*\bproject-card\b)[^>]*>([\s\S]*?)<\/article>/g)) {
+  const number = card.match(/<div\b[^>]*class="[^"]*\bproject-meta\b[^"]*"[^>]*>\s*<span\b[^>]*>(\d{2}) \/ /)?.[1];
+  if (!number) continue;
+  // O título leva ao estudo de caso; outros links podem abrir a demo ou o código.
+  const destination = card.match(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/)?.[1];
+  if (!destination) { report(homepage, 'projeto ' + number + ': destino ausente'); continue; }
+  const url = new URL(destination, 'https://example.invalid/');
+  let target = path.join(root, decodeURIComponent(url.pathname));
+  if (url.origin !== 'https://example.invalid' || !target.startsWith(root)) {
+    report(homepage, 'projeto ' + number + ': o destino deve ser uma página local');
+    continue;
+  }
+  try {
+    if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
+    const targetHtml = await readHtml(target);
+    const eyebrow = targetHtml.match(/<p\b[^>]*class="[^"]*\beyebrow\b[^"]*"[^>]*>([^<]*)/)?.[1].trim() || '';
+    if (!eyebrow.startsWith(number + ' / ')) {
+      const actual = eyebrow.match(/^\d{2}/)?.[0] || 'sem número';
+      report(target, 'numeração divergente: ' + number + ' vs ' + actual + ' (página inicial vs destino)');
+    }
+  } catch { report(homepage, 'projeto ' + number + ': destino inexistente: ' + destination); }
 }
 for (const file of files.filter((file) => file.endsWith('.js'))) {
   try { execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' }); } catch { report(file, 'JavaScript com erro de sintaxe'); }
